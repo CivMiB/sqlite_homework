@@ -5,9 +5,7 @@
 
 from tkinter import ttk
 import tkinter as tk
-from tkinter.messagebox import showinfo
-import os
-import shutil
+import sqlite3
 
 
 # Создаём класс основного окна
@@ -21,12 +19,28 @@ class App(tk.Tk):
         self.put_frames()
 
     # Создаём фреймы основного окна
-    def put_frames(self):
-        self.add_left_panel = LeftPanel(self).place(x=0, y=0, width=500, height=570)
+    # def put_frames(self):
+        # self.add_left_panel = LeftPanel(self).place(x=0, y=0, width=500, height=570)
 
 
+def load_db():
+    # Создание базы данных
+    conn = sqlite3.connect('people.db')
+    # Создание таблицы
+    cursor = conn.cursor()
+    # Создание таблицы c проверкой существования таблицы
+    cursor.execute('''CREATE TABLE IF NOT EXISTS mytable (
+                   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                   name TEXT,
+                   surname TEXT,
+                   age INTEGER);''')
+    conn.commit()
+    conn.close()
+
+    
 
 if __name__ == "__main__":
-    app = App()
-    app.mainloop()
+    load_db()
+    # app = App()
+    # app.mainloop()
 
